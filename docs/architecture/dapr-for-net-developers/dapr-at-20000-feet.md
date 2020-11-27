@@ -36,7 +36,7 @@ While language-specific SDKs enhance the developer experience, Dapr is  platform
 
 The blue boxes across the center of the figure represent the DAPR building blocks. Each abstracts a distributed application capability that your application can consume.
 
-The bottom row highlights the portability of Dapr and the diverse environments across which it can run. 
+The bottom row highlights the portability of Dapr and the diverse environments across which it can run.
 
 ## Dapr architecture
 
@@ -64,7 +64,7 @@ The following table describes the services provided by each block.
 | [Actors](https://github.com/dapr/components-contrib/tree/master/secretstores) | Encapsulate logic and data in reusable actor objects. |
 | [Resource bindings and triggers](https://github.com/dapr/components-contrib/tree/master/exporters) | Trigger code from events raised by external resources with bi-directional communication. |
 
-Building blocks abstract the implementation of distributed application capabilities from your services. Figure 2-3 shows this interaction. 
+Building blocks abstract the implementation of distributed application capabilities from your services. Figure 2-3 shows this interaction.
 
 ![Dapr building blocks](./media/building-block-integration.png)
 
@@ -104,16 +104,16 @@ Each component provides the necessary implementation through a common state mana
 
    ```go
    type Store interface {
-        Init(metadata Metadata) error
-        Delete(req *DeleteRequest) error
-        BulkDelete(req []DeleteRequest) error
-        Get(req *GetRequest) (*GetResponse, error)
-        Set(req *SetRequest) error
-        BulkSet(req []SetRequest) error
+     Init(metadata Metadata) error
+     Delete(req *DeleteRequest) error
+     BulkDelete(req []DeleteRequest) error
+     Get(req *GetRequest) (*GetResponse, error)
+     Set(req *SetRequest) error
+     BulkSet(req []SetRequest) error
   }
    ```
 
-   > Note: The Dapr interface above along with all of Dapr has been written in the Golang, or Go, platform. Go is a popular language across the open source community and attests to cross-platform commitment of Dapr. 
+   > Note: The Dapr interface above along with all of Dapr has been written in the Golang, or Go, platform. Go is a popular language across the open source community and attests to cross-platform commitment of Dapr.
 
 Perhaps you start with Azure Redis Cache as your state store. You specify it with the following configuration:
 
@@ -168,7 +168,7 @@ This pattern is named Sidecar because it resembles a sidecar attached to a motor
 
 Dapr has cross-platform support and can run in many different environments. These environments include Kubernetes, a group of VMs, or edge environments such as Azure IoT Edge.
 
-For local development, the easiest way to get started is [self-hosted mode](https://docs.dapr.io/concepts/overview/#self-hosted). In self-hosted mode, the microservices and Dapr sidecars run in separate local processes without a container orchestrator such as Kubernetes. To get started with self-hosted mode, [download and install the Dapr CLI](https://docs.dapr.io/getting-started/install-dapr/). 
+For local development, the easiest way to get started is [self-hosted mode](https://docs.dapr.io/concepts/overview/#self-hosted). In self-hosted mode, the microservices and Dapr sidecars run in separate local processes without a container orchestrator such as Kubernetes. To get started with self-hosted mode, [download and install the Dapr CLI](https://docs.dapr.io/getting-started/install-dapr/).
 
 Figure 2-5 shows an application and Dapr hosted in two separate memory processes communicating via HTTP or gRPC.
 
@@ -176,7 +176,7 @@ Figure 2-5 shows an application and Dapr hosted in two separate memory processes
 
 **Figure 2-5**. Self-hosted Dapr sidecar
 
-By default, Dapr will install Docker containers for Redis and Zipkin to ensure building blocks such as state management and observability work out of the box. If you don't want to install Docker on your local machine, you can even [run Dapr in self-hosted mode without any Docker containers](https://docs.dapr.io/operations/hosting/self-hosted/self-hosted-no-docker/). However, you must install default components such as Redis for state management and pub/sub manually. 
+By default, Dapr will install Docker containers for Redis and Zipkin to ensure building blocks such as state management and observability work out of the box. If you don't want to install Docker on your local machine, you can even [run Dapr in self-hosted mode without any Docker containers](https://docs.dapr.io/operations/hosting/self-hosted/self-hosted-no-docker/). However, you must install default components such as Redis for state management and pub/sub manually.
 
 Dapr also runs in [containerized environments](https://docs.dapr.io/concepts/overview/#kubernetes-hosted), such as Kubernetes. Figure 2-6 shows Dapr running in a separate side-car container along with the application container in the same Kubernetes pod.
 
@@ -194,9 +194,9 @@ As you've seen, Dapr exposes a sidecar architecture to decouple your application
 
 Looking at the previous figure, one might question the latency and overhead incurred for each call.  
 
-The Dapr team has invested heavily in performance. A tremendous amount of engineering effort has gone into making Dapr efficient. Calls between Dapr sidecars are always made with gRPC, which delivers high performance and small, binary payloads. In most cases, the additional overhead should be less than 1 millisecond. 
+The Dapr team has invested heavily in performance. A tremendous amount of engineering effort has gone into making Dapr efficient. Calls between Dapr sidecars are always made with gRPC, which delivers high performance and small, binary payloads. In most cases, the additional overhead should be less than 1 millisecond.
 
-To increase performance, developers can call the Dapr building blocks with gRPC. 
+To increase performance, developers can call the Dapr building blocks with gRPC.
 
 gRPC is a modern, high-performance framework that evolves the age-old [remote procedure call (RPC)](https://en.wikipedia.org/wiki/Remote_procedure_call) protocol. gRPC uses HTTP/2 for its transport protocol, which provides significant performance enhancements over HTTP RESTFul service, including:
 
@@ -206,7 +206,7 @@ gRPC is a modern, high-performance framework that evolves the age-old [remote pr
 
 ## Dapr and service meshes
 
-Service mesh is another rapidly evolving technology for distributed applications. 
+Service mesh is another rapidly evolving technology for distributed applications.
 
 A service mesh is a configurable infrastructure layer with built-in capabilities to handle service-to-service communication, resiliency, load balancing, and telemetry capture. It moves the responsibility for these concerns out of the services and into the service mesh layer. Like Dapr, a service mesh also follows a sidecar architecture.
 
@@ -222,7 +222,7 @@ So the question becomes, "Is Dapr a service mesh?"
 
 While both use a sidecar architecture, each technology has a different purpose. Dapr provides distributed application features. A service mesh provides a dedicated network infrastructure layer.
 
-As each works at a different level, both can work together in the same application. For example, a service mesh could provide networking communication between services; Dapr could provide application services such as state management or actor services. 
+As each works at a different level, both can work together in the same application. For example, a service mesh could provide networking communication between services; Dapr could provide application services such as state management or actor services.
 
 Figure 2-9 shows an application that implements both Dapr and service mesh technology.
 
@@ -255,5 +255,3 @@ In the next chapters, we present practical, hands-on instruction on how to use D
 >[!div class="step-by-step"]
 >[Previous](the-world-is-distributed.md)
 >[Next](index.md)
-
-https://dotnet.microsoft.com/download/e-book/cloud-native-azure/pdf
