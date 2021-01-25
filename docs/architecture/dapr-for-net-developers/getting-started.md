@@ -74,7 +74,7 @@ You can invoke Dapr APIs across any development platform using Dapr's native sup
    using System.Threading.Tasks;
    using Dapr;
    using Dapr.Client;
-   
+
    namespace DaprCounter
    {
        class Program
@@ -82,15 +82,15 @@ You can invoke Dapr APIs across any development platform using Dapr's native sup
            static async Task Main(string[] args)
            {
                DaprClient daprClient = new DaprClientBuilder().Build();
-   
+
                int counter = await daprClient.GetStateAsync<int>("statestore", "counter");
-   
+
                while (true)
                {
                    Console.WriteLine($"Counter = {counter++}");
-   
+
                    await daprClient.SaveStateAsync("statestore", "counter", counter);
-   
+
                    await Task.Delay(1000);
                }
            }
@@ -253,17 +253,17 @@ Now, you'll configure communication between the services using Dapr [service inv
 
    ```c#
    using System;
-      
+
       namespace DaprFrontEnd
       {
           public class WeatherForecast
           {
               public DateTime Date { get; set; }
-      
+
               public int TemperatureC { get; set; }
-      
+
               public int TemperatureF { get; set; }
-      
+
               public string Summary { get; set; }
           }
       }
@@ -277,18 +277,18 @@ Now, you'll configure communication between the services using Dapr [service inv
    using System.Threading.Tasks;
    using Dapr.Client;
    using Microsoft.AspNetCore.Mvc.RazorPages;
-   
+
    namespace DaprFrontEnd.Pages
    {
        public class IndexModel : PageModel
        {
            private readonly DaprClient _client;
-   
+
            public IndexModel(DaprClient client)
            {
                _client = client;
            }
-   
+
            public async Task OnGet()
            {
                var forecasts = await _client.InvokeMethodAsync<IEnumerable<WeatherForecast>>(
@@ -298,7 +298,7 @@ Now, you'll configure communication between the services using Dapr [service inv
                    {
                        Method = HttpMethod.Get
                    });
-   
+
                ViewData["WeatherForecastData"] = forecasts;
            }
        }
@@ -315,7 +315,7 @@ Now, you'll configure communication between the services using Dapr [service inv
    @{
        ViewData["Title"] = "Home page";
    }
-   
+
    <div class="text-center">
        <h1 class="display-4">Welcome</h1>
        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
@@ -348,14 +348,14 @@ In the final part of this example, you'll add container support and run the solu
 
    ```yaml
    version: '3.4'
-   
+
    services:
      daprfrontend:
        image: ${DOCKER_REGISTRY-}daprfrontend
        build:
          context: .
          dockerfile: DaprFrontEnd/Dockerfile
-   
+
    ```
 
    The *.dockerignore* file contains file types and extensions that you don't want Docker to include in the container. These files are associated with the development environment and source control and not the app or service you're deploying.
@@ -366,14 +366,14 @@ In the final part of this example, you'll add container support and run the solu
 
    ```yaml
    version: '3.4'
-   
+
    services:
      daprfrontend:
        image: ${DOCKER_REGISTRY-}daprfrontend
        build:
          context: .
          dockerfile: DaprFrontEnd/Dockerfile
-   
+
      daprbackend:
        image: ${DOCKER_REGISTRY-}daprbackend
        build:
@@ -385,7 +385,7 @@ In the final part of this example, you'll add container support and run the solu
 
    ```yaml
    version: '3.4'
-   
+
    services:
      daprfrontend:
        image: ${DOCKER_REGISTRY-}daprfrontend
@@ -393,15 +393,15 @@ In the final part of this example, you'll add container support and run the solu
          context: .
          dockerfile: DaprFrontEnd/Dockerfile
        ports:
-         - "51000:50001" 
-   
+         - "51000:50001"
+
      daprfrontend-dapr:
        image: "daprio/daprd:latest"
        command: [ "./daprd", "-app-id", "daprfrontend", "-app-port", "80" ]
        depends_on:
          - daprfrontend
        network_mode: "service:daprfrontend"
-   
+
      daprbackend:
        image: ${DOCKER_REGISTRY-}daprbackend
        build:
@@ -409,13 +409,13 @@ In the final part of this example, you'll add container support and run the solu
          dockerfile: DaprBackEnd/Dockerfile
        ports:
          - "52000:50001"
-   
+
      daprbackend-dapr:
        image: "daprio/daprd:latest"
        command: [ "./daprd", "-app-id", "daprbackend", "-app-port", "80" ]
        depends_on:
          - daprfrontend
-       network_mode: "service:daprbackend" 
+       network_mode: "service:daprbackend"
    ```
 
    In the updated file, we've added `daprfrontend-dapr` and `daprbackend-dapr` sidecars for the `daprfrontend` and `daprbackend` services respectively. In the updated file, pay close attention to the following changes:

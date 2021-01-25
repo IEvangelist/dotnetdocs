@@ -287,7 +287,7 @@ public class CatalogService : ICatalogService
             DaprAppId,
             "api/v1/catalog/items",
             new HttpInvocationOptions
-            { 
+            {
                 Method = HttpMethod.Get,
                 QueryString = new Dictionary<string, string>
                 {
